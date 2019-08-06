@@ -17,4 +17,4 @@
 
 
 
-###### This program is using using [News API](https://newsapi.org/) **© MrRobot420**
+###### This program is using [News API](https://newsapi.org/)    -    **© MrRobot420**
