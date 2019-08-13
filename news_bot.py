@@ -22,9 +22,22 @@ import urllib
 import requests
 import json
 
-save_folder = "/Users/Maxi/Desktop/atom/python/automation/news_api/data/"
+save_folder_mac = "/Users/Maxi/Desktop/atom/python/automation/news_api/data/"
+save_folder_win = "C:/Users/PC/code/py/automation/news-crawler/data/"
 site = "https://newsapi.org/v2/top-headlines?country="
-auth = "&apiKey=" + open(save_folder + "key/key.txt").readline()
+
+save_folder = ""
+auth = ""
+
+if os.name == 'nt':
+    auth_win = "&apiKey=" + open(save_folder_win + "key/key.txt").readline()
+    save_folder = save_folder_win
+    auth = auth_win
+else:
+    auth_mac = "&apiKey=" + open(save_folder_mac + "key/key.txt").readline()
+    save_folder = save_folder_mac
+    auth = save_folder_mac
+
 
 # Codes for various countries:
 c_code = dict(
