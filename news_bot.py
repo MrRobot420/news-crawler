@@ -51,6 +51,14 @@ c_code = dict(
     es = "es"
 )
 
+def main_loop():
+    print("\n\n\n\n#####   STARTING NEWS-BOT   #####\n\n")
+    for code in c_code:
+        req = site + code + auth            # Build requests
+        data = get_data(req, code)          # Request the data
+        save_data(data, code)               # Save the data
+
+
 # Get data for a specific request:
 def get_data(request, code):
     print("[*] FETCHING NEWS REQUEST FOR COUNTRY: %s ..." % code.upper())
@@ -62,19 +70,25 @@ def get_data(request, code):
 
 def save_data(data, code):
     date = dt.now().strftime("%d-%m-%Y")
+    folder_name = date
+    path = save_folder + folder_name
+
+    if not os.path.isdir(path):
+        os.mkdir(path, 755)
+
     filename = date + "_" + code + ".json"
     print("[√] SAVED JSON FROM COUNTRY [ %s ] AS [ %s ]\n" % (code, filename))
 
-    with open(save_folder + filename, 'w') as outfile:
+    #decoded_data = dict()
+
+    #for obj in data:
+    #    decoded_data.update(obj.decode('utf-8'))
+    
+    #print(decoded_data)
+    
+
+    with open(path + '/' + filename, 'w') as outfile:
         json.dump(data, outfile)
-
-
-def main_loop():
-    print("\n\n\n\n#####   STARTING NEWS-BOT   #####\n\n")
-    for code in c_code:
-        req = site + code + auth
-        data = get_data(req, code)
-        save_data(data, code)
 
 
 main_loop()
