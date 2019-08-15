@@ -56,7 +56,11 @@ def main_loop():
     for code in c_code:
         req = site + code + auth            # Build requests
         data = get_data(req, code)          # Request the data
-        save_data(data, code)               # Save the data
+        #decoded_data = dict()
+        #for obj in data:
+        #    decoded_data.update(obj.decode('utf-8'))
+        #print(decoded_data)
+        save_data(data, code, 1)               # Save the data
 
 
 # Get data for a specific request:
@@ -68,7 +72,7 @@ def get_data(request, code):
     return data
 
 
-def save_data(data, code):
+def save_data(data, code, num):
     date = dt.now().strftime("%d-%m-%Y")
     folder_name = date
     path = save_folder + folder_name
@@ -76,19 +80,19 @@ def save_data(data, code):
     if not os.path.isdir(path):
         os.mkdir(path, 755)
 
-    filename = date + "_" + code + ".json"
-    print("[√] SAVED JSON FROM COUNTRY [ %s ] AS [ %s ]\n" % (code, filename))
-
-    #decoded_data = dict()
-
-    #for obj in data:
-    #    decoded_data.update(obj.decode('utf-8'))
+    if num < 10:
+        filename = '0' + str(num) + "_" + code + ".json"
+    else:
+        filename = str(num) + "_" + code +".json"
     
-    #print(decoded_data)
-    
-
-    with open(path + '/' + filename, 'w') as outfile:
-        json.dump(data, outfile)
+    if not os.path.isfile(path + '/' + filename):
+        with open(path + '/' + filename, 'w') as outfile:
+            json.dump(data, outfile)
+        print("[√] SAVED JSON FROM COUNTRY [ %s ] IN [ %s ]\n" % (code, filename))
+    else:
+        num += 1
+        save_data(data, code, num)  # Recursively check if file exists
+        
 
 
 main_loop()
