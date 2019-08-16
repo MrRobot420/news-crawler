@@ -23,13 +23,17 @@ import requests
 import json
 import io
 
+# Change the path how you wish:
 save_folder_mac = "/Users/Maxi/Desktop/atom/python/automation/news_api/data/"
 save_folder_win = "C:/Users/PC/code/py/automation/news-crawler/data/"
+
+# Change the link how you wish:
 site = "https://newsapi.org/v2/top-headlines?country="
 
 save_folder = ""
 auth = ""
 
+# Check for operation system (if multiple operating systems in use):
 if os.name == 'nt':
     auth_win = "&apiKey=" + open(save_folder_win + "key/key.txt").readline()
     save_folder = save_folder_win
@@ -48,16 +52,16 @@ c_code = dict(
     ru = "ru",
     cn = "cn",
     fr = "fr",
-    it = "it",
-    es = "es"
+    it = "it"
 )
 
+# The ressemblance of the core routine:
 def main_loop():
     print("\n\n\n\n#####   STARTING NEWS-BOT   #####\n\n")
     for code in c_code:
         req = site + code + auth            # Build requests
         data = get_data(req, code)          # Request the data
-        save_data(data, code, 1)               # Save the data
+        save_data(data, code, 1)            # Save the data
 
 
 # Get data for a specific request:
@@ -69,27 +73,38 @@ def get_data(request, code):
     return data
 
 
+# Saves the JSON-data and formats it
 def save_data(data, code, num):
-    date = dt.now().strftime("%d-%m-%Y")
-    folder_name = date
+    folder_name = dt.now().strftime("%d-%m-%Y")                    # Get the current date
     path = save_folder + folder_name
 
-    if not os.path.isdir(path):
-        os.mkdir(path, 755)
-
-    if num < 10:
-        filename = '0' + str(num) + "_" + code + ".json"
-    else:
-        filename = str(num) + "_" + code +".json"
-    
+    make_dir(path, folder_name)                             # Check if a folder has to be made
+    filename = assemble_filename(num, code)                 # Assemble the filename for saving the data
+     
     if not os.path.isfile(path + '/' + filename):
         with io.open(path + '/' + filename,'w', encoding="utf-8") as outfile:
             outfile.write(json.dumps(data, ensure_ascii=False, indent=4))    
         print("[√] SAVED JSON FROM COUNTRY [ %s ] IN [ %s ]\n" % (code, filename))
     else:
         num += 1
-        save_data(data, code, num)  # Recursively check if file exists
+        save_data(data, code, num)  # Recursively check if the file exists
         
+
+# Check if there already is a folder for the current day:
+def make_dir(path, fn):
+    if not os.path.isdir(path):
+        os.mkdir(path, 755)
+        print("[+] CREATED NEW FOLDER [ %s ] FOR THE CURRENT DAY." % fn)
+
+
+# Builds the filename:
+def assemble_filename(num, code):
+    if num < 10:
+        filename = '0' + str(num) + "_" + code + ".json"
+    else:
+        filename = str(num) + "_" + code +".json"
+
+    return filename
 
 
 main_loop()
