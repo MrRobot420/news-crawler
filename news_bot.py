@@ -21,6 +21,7 @@ from datetime import datetime as dt
 import urllib
 import requests
 import json
+import io
 
 save_folder_mac = "/Users/Maxi/Desktop/atom/python/automation/news_api/data/"
 save_folder_win = "C:/Users/PC/code/py/automation/news-crawler/data/"
@@ -56,10 +57,6 @@ def main_loop():
     for code in c_code:
         req = site + code + auth            # Build requests
         data = get_data(req, code)          # Request the data
-        #decoded_data = dict()
-        #for obj in data:
-        #    decoded_data.update(obj.decode('utf-8'))
-        #print(decoded_data)
         save_data(data, code, 1)               # Save the data
 
 
@@ -67,8 +64,8 @@ def main_loop():
 def get_data(request, code):
     print("[*] FETCHING NEWS REQUEST FOR COUNTRY: %s ..." % code.upper())
     response = requests.get(request)
-    data = json.loads(response.content)
-
+    response = requests.utils.get_unicode_from_response(response)
+    data = json.loads(response, encoding='utf-8')
     return data
 
 
@@ -86,8 +83,8 @@ def save_data(data, code, num):
         filename = str(num) + "_" + code +".json"
     
     if not os.path.isfile(path + '/' + filename):
-        with open(path + '/' + filename, 'w') as outfile:
-            json.dump(data, outfile)
+        with io.open(path + '/' + filename,'w', encoding="utf-8") as outfile:
+            outfile.write(json.dumps(data, ensure_ascii=False, indent=4))    
         print("[√] SAVED JSON FROM COUNTRY [ %s ] IN [ %s ]\n" % (code, filename))
     else:
         num += 1
