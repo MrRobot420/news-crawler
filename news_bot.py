@@ -35,14 +35,15 @@ auth = ""
 
 # Check for operation system (if multiple operating systems in use):
 if os.name == 'nt':
+    print("[info] running on windows...\n\n\n")
     auth_win = "&apiKey=" + open(save_folder_win + "key/key.txt").readline()
     save_folder = save_folder_win
     auth = auth_win
 else:
+    print("[info] running on mac / unix...\n\n\n")
     auth_mac = "&apiKey=" + open(save_folder_mac + "key/key.txt").readline()
     save_folder = save_folder_mac
-    auth = save_folder_mac
-
+    auth = auth_mac
 
 # Codes for various countries:
 c_code = dict(
@@ -57,7 +58,7 @@ c_code = dict(
 
 # The ressemblance of the core routine:
 def main_loop():
-    print("\n\n\n\n#####   STARTING NEWS-BOT   #####\n\n")
+    print("\n\n\n\n#####   STARTING NEWS-BOT   #####")
     for code in c_code:
         req = site + code + auth            # Build requests
         data = get_data(req, code)          # Request the data
@@ -77,6 +78,7 @@ def get_data(request, code):
 def save_data(data, code, num):
     folder_name = dt.now().strftime("%d-%m-%Y")                    # Get the current date
     path = save_folder + folder_name
+    print(path)
 
     make_dir(path, folder_name)                             # Check if a folder has to be made
     filename = assemble_filename(num, code)                 # Assemble the filename for saving the data
@@ -92,8 +94,8 @@ def save_data(data, code, num):
 
 # Check if there already is a folder for the current day:
 def make_dir(path, fn):
-    if not os.path.isdir(path):
-        os.mkdir(path, 755)
+    if not os.path.isdir(path + "/"):
+        os.mkdir(path + "/", 0o777)
         print("[+] CREATED NEW FOLDER [ %s ] FOR THE CURRENT DAY." % fn)
 
 

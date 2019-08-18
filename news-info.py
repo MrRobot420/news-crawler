@@ -33,10 +33,13 @@ def index_folders():
     dirs = os.listdir(save_folder)
     data_dirs = []
 
-    for i in range(len(dirs)-1):
-        directory = dirs[i]
-        print("[+] Found folder '%s' " % directory)
-        data_dirs.append(directory)
+    for i in range(len(dirs)):
+        if (dirs[i] == ".DS_Store") or (dirs[i] == "key"):
+            pass
+        else:
+            directory = dirs[i]
+            print("[+] Found folder '%s' " % directory)
+            data_dirs.append(directory)
     return data_dirs
 
 
@@ -47,7 +50,7 @@ def index_files(folders):
     files = []
 
     for folder in folders:
-        path = save_folder + "/" + folder
+        path = save_folder + folder
         files = os.listdir(path)
         
         for f in files:
