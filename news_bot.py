@@ -78,7 +78,6 @@ def get_data(request, code):
 def save_data(data, code, num):
     folder_name = dt.now().strftime("%d-%m-%Y")                    # Get the current date
     path = save_folder + folder_name
-    print(path)
 
     make_dir(path, folder_name)                             # Check if a folder has to be made
     filename = assemble_filename(num, code)                 # Assemble the filename for saving the data

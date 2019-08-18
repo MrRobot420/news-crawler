@@ -5,7 +5,6 @@ import os
 save_folder_mac = "/Users/Maxi/Desktop/atom/python/automation/news_api/data/"
 save_folder_win = "C:/Users/PC/code/py/automation/news-crawler/data/"
 
-
 save_folder = ""
 
 # Check for operation system (if multiple operating systems in use):
@@ -15,21 +14,32 @@ else:
     save_folder = save_folder_mac
 
 
-
+# The main part of the program
 def main_loop():
     print("\n\n\n\n######   STARTING NEWS-INFO   ######\n\n")
-    index_data()
+    file_pathes, counter, files = index_data()
+    show_info(file_pathes, counter, files)
 
 
+# Logs info to the console:
+def show_info(pathes, count, files):
+    for i in range(count):
+        print("[+]  (%i) Spotted file-path: %s" % (i + 1, pathes[i]))
+        print(" |-- [file]: %s" % files[i])
+    print(" |\n[√] Found %i files\n" % count)
+
+
+# Index data in order to get infos out of them:
 def index_data():
     print("[*] Indexing data...")
     folders = index_folders()
-    file_pathes = index_files(folders)
-    print(file_pathes)                    # Just for debug
+    file_pathes, counter, files = index_files(folders)
+    return file_pathes, counter, files
 
 
+# Index all folders within data:
 def index_folders():
-    print("[*] Indexing folders...")
+    print("\n[*] Indexing folders...")
     dirs = os.listdir(save_folder)
     data_dirs = []
 
@@ -43,19 +53,24 @@ def index_folders():
     return data_dirs
 
 
-
+# Index all files in the subfolders:
 def index_files(folders):
-    print("[*] Indexing files...")
+    print("\n[*] Indexing files...")
     pathes = []
+    filenames = []
     files = []
+    counter = 0
 
+    # Iterate through each folder and get the filenames:
     for folder in folders:
         path = save_folder + folder
         files = os.listdir(path)
         
         for f in files:
+            counter += 1
             pathes.append(path + "/" + f)
+            filenames.append(f)
     
-    return pathes
+    return pathes, counter, filenames
 
 main_loop()
