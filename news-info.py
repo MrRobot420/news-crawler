@@ -1,4 +1,5 @@
 import os
+import json
 
 
 # Change the path how you wish:
@@ -27,6 +28,31 @@ def show_info(pathes, count, files):
         print("[+]  (%i) Spotted file-path: %s" % (i + 1, pathes[i]))
         print(" |-- [file]: %s" % files[i])
     print(" |\n[√] Found %i files\n" % count)
+
+    for path in pathes:
+        #print("[*] Loading new data from path: %s\n" % path)
+        data = open(path, 'r', encoding='utf-8')
+        news_object = json.load(data)
+
+        articles = news_object["articles"]
+        #print(articles)
+
+        counter = 0
+        
+        for article in articles:
+            counter += 1
+            title = article["title"]
+            author = article["author"]
+            url = article["url"]
+            pubAt = article["publishedAt"]
+
+            print("[+] ARTICLE (%i)" % counter)
+            print(" - Title: %s" % title)
+            print(" - Author: %s" % author)
+            print(" - URL: %s" % url)
+            print(" - Date: %s" % pubAt)
+        
+        print("\n")
 
 
 # Index data in order to get infos out of them:
