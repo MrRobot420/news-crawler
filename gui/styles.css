@@ -8,3 +8,14 @@
     height: 800px;
     /* width: 400px; */
 }
+
+.data {
+    width: 400px;
+    height: 500px;
+}
+
+.btn {
+    width: 150px;
+    height: 50px;
+    border: left 2px;
+}

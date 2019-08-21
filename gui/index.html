@@ -4,13 +4,17 @@
         <meta content="text/html" charset="utf-8">
         <title>Display NEWS</title>
         <link href="styles.css" rel="stylesheet"/>
-        <link href="favicon.ico" rel="icon"/>
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
         <script src="https://unpkg.com/vue"></script>
     </head>
     <body>
-        <div class="page">
-            <h1>HELLO</h1>
-            <a>This will become the website</a>
+        <div id="vue-app" class="page">
+            <h1>{{ greet('Day') }}</h1>
+            <a>{{ greeting }}</a><br>
+            <a>{{ status }}</a><br>
+            <textarea class="data" v-model="json_data">{{ json_data }}</textarea><br>
+            <button class="btn" @click="fetchData"> Refresh news </button>
         </div>
+        <script src="app.js" content="text/javascript"></script>
     </body>
 </html>
