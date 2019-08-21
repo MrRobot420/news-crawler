@@ -1,0 +1,23 @@
+{
+  "name": "gui",
+  "version": "1.0.0",
+  "description": "The frontend stuff for the news app\"",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "server",
+    "frontend"
+  ],
+  "author": "Max",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1",
+    "serve-favicon": "^2.5.0"
+  }
+}

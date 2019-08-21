@@ -1,0 +1,10 @@
+* {
+    background-color: rgb(10, 173, 173);
+}
+
+.page {
+    text-align: center;
+    background-color: rgb(10, 173, 173);
+    height: 800px;
+    /* width: 400px; */
+}
